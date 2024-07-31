@@ -1,0 +1,16 @@
+---
+import HomeLayout from "../layouts/HomeLayout.astro";
+import Filters from "../components/Filters.astro";
+import Jumbotron from "../components/Jumbotron.astro";
+import { getUpcomingMovies } from "../services/functions.js";
+
+const upcomingMovies = await getUpcomingMovies();
+console.log(upcomingMovies);
+---
+
+<HomeLayout title="Moovie">
+  <main>
+    <Jumbotron />
+    <Filters />
+  </main>
+</HomeLayout>

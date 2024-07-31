@@ -1,0 +1,39 @@
+---
+import Header from "../components/Header.astro";
+import { ViewTransitions } from 'astro:transitions';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/cow.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{Astro.props.title || "Moovie"}</title>
+    <ViewTransitions />
+  </head>
+  <body>
+    <Header />
+    <main class="container min-w-full mx-auto px-10">
+      <slot />
+    </main>
+    <div class="absolute top-0 z-[-2] h-screen w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
+  </body>
+</html>
+
+<style is:global>
+  @font-face {
+    font-family: "ClashDisplay";
+    src: url("/fonts/ClashDisplay-Variable.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  html {
+    background: #13151a;
+    background-size: 224px;
+    color-scheme: dark light;
+    font-family: "ClashDisplay";
+  }
+</style>
