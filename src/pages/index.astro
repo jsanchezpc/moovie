@@ -1,16 +1,99 @@
 ---
 import HomeLayout from "../layouts/HomeLayout.astro";
-import Filters from "../components/Filters.astro";
 import Jumbotron from "../components/Jumbotron.astro";
 import { getUpcomingMovies } from "../services/functions.js";
-
+import Image from "../components/Image.astro";
 const upcomingMovies = await getUpcomingMovies();
-console.log(upcomingMovies);
 ---
 
 <HomeLayout title="Moovie">
-  <main>
+  <main class="flex flex-col items-center">
     <Jumbotron />
-    <Filters />
+    <!-- <Filters /> -->
+    <div
+      class="columns grid grid-cols-3 mt-6 gap-4 w-3/4 shadow-[black_0px_-8px_20px] justify-center overflow-hidden"
+    >
+      <div class="column column-reverse flex flex-col">
+        {
+          upcomingMovies
+            .slice(0, Math.ceil(upcomingMovies.length / 3))
+            .map((movieItem) => (
+              <a href={`/movie/${movieItem.id}`} class="group mt-2 movieItem">
+                <div class="aspect-w-16 aspect-h-9 max-w-xl">
+                  <Image transition:name="img" transition:persistent src={`https://image.tmdb.org/t/p/w500${movieItem.poster_path}`} alt={movieItem.title} class="object-cover w-full h-full rounded-lg" />
+                </div>
+              </a>
+            ))
+        }
+
+      </div>
+      <div class="column flex flex-col">
+        {
+          upcomingMovies
+            .slice(
+              Math.ceil(upcomingMovies.length / 3),
+              2 * Math.ceil(upcomingMovies.length / 3)
+            )
+            .map((movieItem) => (
+              <a href={`/movie/${movieItem.id}`} class="group mt-2 movieItem">
+                <div class="aspect-w-16 aspect-h-9 max-w-xl">
+                  <Image transition:name="img" transition:persistent src={`https://image.tmdb.org/t/p/w500${movieItem.poster_path}`} alt={movieItem.title} class="object-cover w-full h-full rounded-lg" />
+                </div>
+              </a>
+            ))
+        }
+      </div>
+      <div class="column column-reverse flex flex-col">
+        {
+          upcomingMovies
+            .slice(2 * Math.ceil(upcomingMovies.length / 3))
+            .map((movieItem) => (
+              <a href={`/movie/${movieItem.id}`} class="group mt-2 movieItem">
+                <div class="aspect-w-16 aspect-h-9 max-w-xl">
+                  <Image transition:name="img" transition:persistent src={`https://image.tmdb.org/t/p/w500${movieItem.poster_path}`} alt={movieItem.title} class="object-cover w-full h-full rounded-lg" />
+                </div>
+              </a>
+            ))
+        }
+        <div class="h-full bg-pink-500 rounded-xl">
+          <Jumbotron />
+        </div>
+      </div>
+    </div>
   </main>
 </HomeLayout>
+
+<style>
+  /* Three column layout */
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    overflow-y: hidden; /* Prevent overflow */
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .column-reverse {
+    transform: translateY(calc(-100% + 100vh));
+    flex-direction: column-reverse;
+  }
+
+  /* Set up Animation */
+  @keyframes adjust-position {
+    from {
+      transform: translateY(calc(-100% + 100vh));
+    }
+    to {
+      transform: translateY(calc(100% - 100vh));
+    }
+  }
+
+  /* Hook our animation with the timeline to our columns */
+  .column-reverse {
+    animation: adjust-position linear forwards;
+    animation-timeline: scroll(root block);
+  }
+</style>

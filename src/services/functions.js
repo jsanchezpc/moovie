@@ -1,7 +1,7 @@
 const API_KEY = import.meta.env.API_KEY; 
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-// // Función para hacer una llamada a la API
+// Función para hacer una llamada a la API
 export async function fetchFromTMDb(endpoint) {
     const url = `${BASE_URL}${endpoint}?api_key=${API_KEY}&language=es-ES&page=1`;
     try {
@@ -40,7 +40,7 @@ export async function getTrending() {
 export async function getUpcomingMovies() {
     const endpoint = '/movie/upcoming';
     const data = await fetchFromTMDb(endpoint);
-    console.log('Películas de estreno:', data);
+    return data.results;
 }
 
 
