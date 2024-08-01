@@ -11,11 +11,11 @@ import { ViewTransitions } from 'astro:transitions';
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{Astro.props.title || "Moovie"}</title>
-    <ViewTransitions />
+    <ViewTransitions fallback="swap" />
   </head>
-  <body transition:animate="none">
+  <body transition:animate="fade">
     <Header />
-    <main class="container min-w-full mx-auto px-10">
+    <main transition:animate="slide" class="container min-w-full mx-auto px-10">
       <slot />
     </main>
     <div class="absolute top-0 z-[-2] h-auto w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>

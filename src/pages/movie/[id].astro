@@ -1,21 +1,29 @@
 ---
 import HomeLayout from "../../layouts/HomeLayout.astro";
-import Image from "../../components/Image.astro";
+import MovieImage from "../../components/MovieImage.astro";
 import { getUpcomingMovies } from "../../services/functions.js";
 const upcomingMovies = await getUpcomingMovies();
 export const prerender = false;
-const id = Astro.params.id; 
+const id = Astro.params.id;
 const numericId = Number(id);
 const movie = upcomingMovies.find((movie) => movie.id === numericId);
+console.log(movie);
 ---
 
-<HomeLayout>
+<HomeLayout title={movie.title}>
   <div
-    class="relative  flex flex-col items-center mx-auto lg:flex-row-reverse lg:max-w-5xl lg:mt-12 xl:max-w-6xl"
+    class="relative mb-12 flex flex-col items-center mx-auto lg:flex-row-reverse lg:max-w-5xl lg:mt-12 xl:max-w-6xl"
   >
     <!-- Image Column -->
-    <div class="w-full h-64 lg:w-1/2 lg:h-auto ">
-      <Image transition:name="img" src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} class="h-full w-full object-cover rounded-xl shadow-xl shadow-black" />
+    <div class="w-full h-64 lg:w-1/2 lg:h-auto">
+      <MovieImage
+        client:visible
+        transition:persist
+        transition:name="img"
+        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+        alt={movie.title}
+        class="h-full w-full object-cover rounded-xl shadow-xl shadow-black"
+      />
     </div>
     <!-- Close Image Column -->
 
@@ -28,7 +36,8 @@ const movie = upcomingMovies.find((movie) => movie.id === numericId);
         <h2 class="text-2xl font-medium uppercase text-pink-800 lg:text-4xl">
           {movie.title}
         </h2>
-        <p class="mt-4 text-pink-200">
+        <sub class="text-pink-200 font-thin">{movie.release_date}</sub>
+        <p class="mt-4 text-yellow-200 font-sans">
           {movie.overview}
         </p>
         <!-- Button Container -->
@@ -44,4 +53,10 @@ const movie = upcomingMovies.find((movie) => movie.id === numericId);
     </div>
     <!-- Close Text Column -->
   </div>
+  
+
+
+
 </HomeLayout>
+
+

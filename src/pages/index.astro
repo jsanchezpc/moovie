@@ -2,7 +2,7 @@
 import HomeLayout from "../layouts/HomeLayout.astro";
 import Jumbotron from "../components/Jumbotron.astro";
 import { getUpcomingMovies } from "../services/functions.js";
-import Image from "../components/Image.astro";
+import MovieImage from "../components/MovieImage.astro";
 const upcomingMovies = await getUpcomingMovies();
 ---
 
@@ -10,24 +10,40 @@ const upcomingMovies = await getUpcomingMovies();
   <main class="flex flex-col items-center">
     <Jumbotron />
     <!-- <Filters /> -->
-    <div
-      class="columns grid grid-cols-3 mt-6 gap-4 w-3/4 shadow-[black_0px_-8px_20px] justify-center overflow-hidden"
+    <a
+      href="/discover"
+      class=" lg:hidden mt-8 inline-flex shadow-xl shadow-neutral-900 items-center px-4 py-2 text-base text-white-900 bg-transparent border border-pink-600 hover:border-black rounded-full cursor-pointer font-base hover:text-neutral-100 hover:bg-gradient-to-b hover:from-purple-500 hover: hover:to-pink-600"
     >
-      <div class="column column-reverse flex flex-col">
+      Descubre
+    </a>
+    <div
+      class="columns max-w-7xl grid shadow-inner grid-cols-3 mt-6 gap-4 w-5/6 justify-center overflow-hidden"
+    >
+      <div class="column min-w-full column-reverse flex flex-col">
         {
           upcomingMovies
             .slice(0, Math.ceil(upcomingMovies.length / 3))
             .map((movieItem) => (
-              <a href={`/movie/${movieItem.id}`} class="group mt-2 movieItem">
+              <a
+                href={`/movie/${movieItem.id}`}
+                class="group mt-2 movieItem hidden 2xl:block"
+              >
                 <div class="aspect-w-16 aspect-h-9 max-w-xl">
-                  <Image transition:name="img" transition:persistent src={`https://image.tmdb.org/t/p/w500${movieItem.poster_path}`} alt={movieItem.title} class="object-cover w-full h-full rounded-lg" />
+                  <MovieImage
+                    client:visible
+                    transition:persist
+                    transition:name="img"
+                    transition:persistent
+                    src={`https://image.tmdb.org/t/p/w500${movieItem.poster_path}`}
+                    alt={movieItem.title}
+                    class="object-cover w-full h-full rounded-lg"
+                  />
                 </div>
               </a>
             ))
         }
-
       </div>
-      <div class="column flex flex-col">
+      <div class="column min-w-full flex flex-col">
         {
           upcomingMovies
             .slice(
@@ -35,27 +51,45 @@ const upcomingMovies = await getUpcomingMovies();
               2 * Math.ceil(upcomingMovies.length / 3)
             )
             .map((movieItem) => (
-              <a href={`/movie/${movieItem.id}`} class="group mt-2 movieItem">
+              <a
+                href={`/movie/${movieItem.id}`}
+                class="group mt-2 movieItem hidden 2xl:block"
+              >
                 <div class="aspect-w-16 aspect-h-9 max-w-xl">
-                  <Image transition:name="img" transition:persistent src={`https://image.tmdb.org/t/p/w500${movieItem.poster_path}`} alt={movieItem.title} class="object-cover w-full h-full rounded-lg" />
+                  <MovieImage
+                    client:visible
+                    transition:persist
+                    src={`https://image.tmdb.org/t/p/w500${movieItem.poster_path}`}
+                    alt={movieItem.title}
+                    class="object-cover w-full h-full rounded-lg"
+                  />
                 </div>
               </a>
             ))
         }
       </div>
-      <div class="column column-reverse flex flex-col">
+      <div class="column min-w-full column-reverse flex flex-col">
         {
           upcomingMovies
             .slice(2 * Math.ceil(upcomingMovies.length / 3))
             .map((movieItem) => (
-              <a href={`/movie/${movieItem.id}`} class="group mt-2 movieItem">
+              <a
+                href={`/movie/${movieItem.id}`}
+                class="group mt-2 movieItem hidden 2xl:block"
+              >
                 <div class="aspect-w-16 aspect-h-9 max-w-xl">
-                  <Image transition:name="img" transition:persistent src={`https://image.tmdb.org/t/p/w500${movieItem.poster_path}`} alt={movieItem.title} class="object-cover w-full h-full rounded-lg" />
+                  <MovieImage
+                    client:visible
+                    transition:persist
+                    src={`https://image.tmdb.org/t/p/w500${movieItem.poster_path}`}
+                    alt={movieItem.title}
+                    class="object-cover w-full h-full rounded-lg"
+                  />
                 </div>
               </a>
             ))
         }
-        <div class="h-full bg-pink-500 rounded-xl">
+        <div class="hidden 2xl:block rounded-xl">
           <Jumbotron />
         </div>
       </div>
